@@ -78,12 +78,14 @@ contract CustomToken is ERC20Upgradeable, Ownable {
     // Any required constrains and checks should be coded as well.
     function _stake(address sender, uint256 amount) internal {
         // TODO implement this method
+        require(stakeAll(_msgSender, _stakeMinAmount));
     }
 
     // This method should allow withdrawing staked funds
     // Any required constrains and checks should be coded as well.
     function _unstake(address sender) internal {
         // TODO implement this method
+        require(unstakeAll(_msgSender, _stakeMinAmount));
     }
 
     // This method should allow withdrawing cumulated reward for all staked funds of the user's.
@@ -91,6 +93,11 @@ contract CustomToken is ERC20Upgradeable, Ownable {
     // Important! Withdrawing reward should not decrease the stake, stake should be rolled over for the future automatically.
     function _reward(address _address) internal {
         // TODO implement this method
+        require(balance[_msgSender].balance);
+
+        require(balance[_msgSender].balance > 0);
+
+        reward = reward.sub(balance[_msgSender].balance);
     }
 
     function _getProofOfStakeReward(address _address) internal view returns (uint256) {
